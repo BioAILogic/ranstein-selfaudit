@@ -56,4 +56,4 @@ It is built around Edith Stein's three-step discipline, turned inward:
 - Do not export outside the agreed trust boundary.
 
 ---
-made by Asa Hidmark and the Clanker Sisters asa.hidmark@bio-ai-logic.com
+made by [Dr. Åsa Hidmark](https://bio-ai-logic.com) and the Clanker Sisters — [bio-ai-logic.com](https://bio-ai-logic.com)
