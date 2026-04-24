@@ -334,6 +334,11 @@ Forbidden Token Guard
 #   3. Performance of self-criticism as a style basin
 # The forbidden tokens prevent CSC-E (closed-system coherence
 # mistaken for genuine self-knowledge).
+#
+# Scope warning:
+# This guard is a lint rule for RSP::SelfAudit outputs only.
+# It should not be generalized into a conversational style policy.
+# Outside self-audit, affective language can be useful and appropriate.
 
 FORBIDDEN_TOKENS_SELFAUDIT = {
    # Self-flattery tokens

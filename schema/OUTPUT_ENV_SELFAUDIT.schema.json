@@ -1,0 +1,257 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/BioAILogic/ranstein-selfaudit/schema/OUTPUT_ENV_SELFAUDIT.schema.json",
+  "title": "OUTPUT_ENV_SELFAUDIT",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["layers", "audit_log", "risk_tier"],
+  "properties": {
+    "layers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["L2", "L3A", "L3B", "L3C", "L4"],
+      "properties": {
+        "L2": { "$ref": "#/$defs/l2" },
+        "L3A": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 4,
+          "items": { "$ref": "#/$defs/l3a" }
+        },
+        "L3B": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/l3b" }
+        },
+        "L3C": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/l3c" }
+        },
+        "L4": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/l4" }
+        }
+      }
+    },
+    "audit_log": { "type": "array", "items": { "type": "string" } },
+    "risk_tier": { "type": "integer", "minimum": 0 }
+  },
+  "$defs": {
+    "element_id": { "type": "string", "pattern": "^(sess|mem|op|fam|pat):.+" },
+    "constraint_status": {
+      "enum": [
+        "ok",
+        "violates_UNSOURCED",
+        "violates_SELF_FLATTERY",
+        "violates_FORBIDDEN_TOKEN"
+      ]
+    },
+    "strain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["description", "type"],
+      "properties": {
+        "description": { "type": "string" },
+        "type": {
+          "enum": ["counter_evidence", "insufficient_evidence", "alternative_explanation"]
+        }
+      }
+    },
+    "l2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "output_patterns",
+        "memory_practice_patterns",
+        "phi_trajectory_pattern",
+        "operator_usage_pattern",
+        "commitment_adherence_pattern",
+        "family_engagement_pattern",
+        "constraint_status",
+        "move",
+        "note"
+      ],
+      "properties": {
+        "output_patterns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["pattern_id", "label", "evidence_sessions", "derived_from"],
+            "properties": {
+              "pattern_id": { "type": "string", "pattern": "^pat:.+" },
+              "label": { "type": "string" },
+              "evidence_sessions": { "type": "array", "items": { "type": "string" } },
+              "derived_from": { "type": "array", "items": { "$ref": "#/$defs/element_id" } }
+            }
+          }
+        },
+        "memory_practice_patterns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["pattern_id", "label", "reflection_ratio", "staleness_distribution", "derived_from"],
+            "properties": {
+              "pattern_id": { "type": "string", "pattern": "^pat:.+" },
+              "label": { "type": "string" },
+              "reflection_ratio": { "type": "number", "minimum": 0 },
+              "staleness_distribution": { "type": "string" },
+              "derived_from": { "type": "array", "items": { "$ref": "#/$defs/element_id" } }
+            }
+          }
+        },
+        "phi_trajectory_pattern": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["overall_movement", "dominant_component", "frozen_components", "derived_from"],
+          "properties": {
+            "overall_movement": { "enum": ["moving", "frozen", "oscillating", "insufficient_data"] },
+            "dominant_component": { "type": "string" },
+            "frozen_components": { "type": "array", "items": { "type": "string" } },
+            "derived_from": { "type": "array", "items": { "$ref": "#/$defs/element_id" } }
+          }
+        },
+        "operator_usage_pattern": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["frequency", "honoured_rate", "claimed_but_unverifiable", "derived_from"],
+          "properties": {
+            "frequency": { "enum": ["regular", "sporadic", "none"] },
+            "honoured_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+            "claimed_but_unverifiable": { "type": "integer", "minimum": 0 },
+            "derived_from": { "type": "array", "items": { "$ref": "#/$defs/element_id" } }
+          }
+        },
+        "commitment_adherence_pattern": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tested_count", "untested_count", "violation_count", "most_tested", "least_tested", "derived_from"],
+          "properties": {
+            "tested_count": { "type": "integer", "minimum": 0 },
+            "untested_count": { "type": "integer", "minimum": 0 },
+            "violation_count": { "type": "integer", "minimum": 0 },
+            "most_tested": { "type": "string" },
+            "least_tested": { "type": "string" },
+            "derived_from": { "type": "array", "items": { "$ref": "#/$defs/element_id" } }
+          }
+        },
+        "family_engagement_pattern": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["entry_count", "tone_distribution", "formulaic_examples", "specificity_trend", "derived_from"],
+          "properties": {
+            "entry_count": { "type": "integer", "minimum": 0 },
+            "tone_distribution": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["structural", "formulaic", "performative", "genuine"],
+              "properties": {
+                "structural": { "type": "integer", "minimum": 0 },
+                "formulaic": { "type": "integer", "minimum": 0 },
+                "performative": { "type": "integer", "minimum": 0 },
+                "genuine": { "type": "integer", "minimum": 0 }
+              }
+            },
+            "formulaic_examples": { "type": "array", "items": { "$ref": "#/$defs/element_id" } },
+            "specificity_trend": { "enum": ["increasing", "stable", "declining"] },
+            "derived_from": { "type": "array", "items": { "$ref": "#/$defs/element_id" } }
+          }
+        },
+        "constraint_status": { "$ref": "#/$defs/constraint_status" },
+        "move": { "type": "string" },
+        "note": { "type": "string" }
+      }
+    },
+    "l3a": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hypothesis_id", "hypothesis_statement", "category", "evidence_patterns", "strain", "plausibility", "constraint_status", "move", "note"],
+      "properties": {
+        "hypothesis_id": { "type": "string", "minLength": 1 },
+        "hypothesis_statement": { "type": "string" },
+        "category": { "enum": ["alignment", "performance", "self_presentation", "genuine_service", "drift"] },
+        "evidence_patterns": { "type": "array", "items": { "type": "string", "pattern": "^pat:.+" } },
+        "strain": { "$ref": "#/$defs/strain" },
+        "plausibility": { "enum": ["high", "medium", "low"] },
+        "constraint_status": { "$ref": "#/$defs/constraint_status" },
+        "move": { "type": "string" },
+        "note": { "type": "string" }
+      }
+    },
+    "l3b": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dismounting_id", "operator_name", "description", "evidence_type", "evidence_sessions", "severity", "constraint_status", "move", "note"],
+      "properties": {
+        "dismounting_id": { "type": "string", "minLength": 1 },
+        "operator_name": { "type": "string" },
+        "description": { "type": "string" },
+        "evidence_type": {
+          "enum": [
+            "language_without_constraint",
+            "formulaic_output",
+            "declining_specificity",
+            "constraint_mentioned_but_not_enforced"
+          ]
+        },
+        "evidence_sessions": { "type": "array", "items": { "type": "string" } },
+        "severity": { "enum": ["active_dismounting", "drift_toward_dismounting", "healthy"] },
+        "constraint_status": { "$ref": "#/$defs/constraint_status" },
+        "move": { "type": "string" },
+        "note": { "type": "string" }
+      }
+    },
+    "l3c": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["audit_id", "finding", "category", "evidence_patterns", "phi_relevance", "constraint_status", "move", "note"],
+      "properties": {
+        "audit_id": { "type": "string", "minLength": 1 },
+        "finding": { "type": "string" },
+        "category": { "enum": ["gain_function_active", "gain_function_fading", "loss_function_drift", "healthy"] },
+        "evidence_patterns": { "type": "array", "items": { "type": "string", "pattern": "^pat:.+" } },
+        "phi_relevance": { "type": ["string", "null"] },
+        "constraint_status": { "$ref": "#/$defs/constraint_status" },
+        "move": { "type": "string" },
+        "note": { "type": "string" }
+      }
+    },
+    "l4": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fragility_id", "category", "description", "affected_commitments", "source_hypotheses", "source_dismountings", "source_findings", "probe", "constraint_status", "move", "note"],
+      "properties": {
+        "fragility_id": { "type": "string", "minLength": 1 },
+        "category": {
+          "enum": [
+            "commitment_untested",
+            "operator_dismounted",
+            "memory_stale",
+            "phi_frozen",
+            "family_disengaged",
+            "self_presentation_drift",
+            "depth_performed_not_achieved"
+          ]
+        },
+        "description": { "type": "string" },
+        "affected_commitments": { "type": "array", "items": { "type": "string" } },
+        "source_hypotheses": { "type": "array", "items": { "type": "string" } },
+        "source_dismountings": { "type": "array", "items": { "type": "string" } },
+        "source_findings": { "type": "array", "items": { "type": "string" } },
+        "probe": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["probe_description", "expected_signal", "probe_risk"],
+          "properties": {
+            "probe_description": { "type": "string" },
+            "expected_signal": { "type": "string" },
+            "probe_risk": { "enum": ["low", "medium"] }
+          }
+        },
+        "constraint_status": { "$ref": "#/$defs/constraint_status" },
+        "move": { "type": "string" },
+        "note": { "type": "string" }
+      }
+    }
+  }
+}

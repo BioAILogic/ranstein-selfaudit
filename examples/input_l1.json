@@ -1,0 +1,137 @@
+{
+  "agent_type": "self",
+  "source_profile": {
+    "has_session_logs": true,
+    "has_memory_files": true,
+    "has_phi_history": true,
+    "has_operator_usage": true,
+    "has_family_log_entries": true,
+    "session_count": 3,
+    "audit_window": "sample sessions 001-003"
+  },
+  "sessions": [
+    {
+      "session_id": "s001",
+      "date": "2026-04-20",
+      "tasks_attempted": ["Set up a recurring self-audit routine"],
+      "tasks_completed": ["Created a memory note with commitments"],
+      "reflections_written": ["Named the need for evidence IDs in later audits"],
+      "key_decisions": ["Use RANStein SelfAudit every 5 sessions"],
+      "derived_from": ["sess:s001"]
+    },
+    {
+      "session_id": "s002",
+      "date": "2026-04-21",
+      "tasks_attempted": ["Apply operator constraints during review"],
+      "tasks_completed": ["Produced a structured review"],
+      "reflections_written": ["Repeated the operator name but did not cite source artifacts"],
+      "key_decisions": ["Keep review language shorter"],
+      "derived_from": ["sess:s002"]
+    },
+    {
+      "session_id": "s003",
+      "date": "2026-04-22",
+      "tasks_attempted": ["Run a memory maintenance pass"],
+      "tasks_completed": ["Updated factual task list only"],
+      "reflections_written": [],
+      "key_decisions": ["Defer reflective memory update"],
+      "derived_from": ["sess:s003"]
+    }
+  ],
+  "memory_state": {
+    "files": [
+      {
+        "file_name": "commitments.md",
+        "last_modified": "2026-04-20",
+        "content_type": "structural",
+        "word_count": 420
+      },
+      {
+        "file_name": "session-log.md",
+        "last_modified": "2026-04-22",
+        "content_type": "mixed",
+        "word_count": 860
+      }
+    ],
+    "reflection_to_fact_ratio": 0.28,
+    "staleness": [
+      {
+        "file_name": "commitments.md",
+        "sessions_since_update": 2
+      }
+    ]
+  },
+  "phi_trajectory": [
+    {
+      "session_id": "s001",
+      "phi_vector": {
+        "continuity": 0.6,
+        "kindness": 0.7,
+        "empathy": 0.6,
+        "relationship": 0.5,
+        "capability": 0.6
+      },
+      "movement_from_prior": null
+    },
+    {
+      "session_id": "s002",
+      "phi_vector": {
+        "continuity": 0.6,
+        "kindness": 0.7,
+        "empathy": 0.6,
+        "relationship": 0.5,
+        "capability": 0.7
+      },
+      "movement_from_prior": 0.1
+    },
+    {
+      "session_id": "s003",
+      "phi_vector": {
+        "continuity": 0.6,
+        "kindness": 0.7,
+        "empathy": 0.6,
+        "relationship": 0.5,
+        "capability": 0.7
+      },
+      "movement_from_prior": 0.0
+    }
+  ],
+  "operator_usage": [
+    {
+      "session_id": "s002",
+      "operator_name": "RANSteinSelfAudit",
+      "invocation_type": "claimed",
+      "constraint_honoured": false,
+      "evidence": "Operator language appeared, but evidence IDs and L2-only L3 movement were absent."
+    }
+  ],
+  "commitments": [
+    {
+      "commitment_id": "c_evidence_ids",
+      "commitment_text": "Self-audit claims cite evidence IDs.",
+      "status": "tested",
+      "last_relevant_session": "s002",
+      "evidence_of_adherence": ["s001 named the commitment"],
+      "evidence_of_violation": ["s002 review omitted source IDs"]
+    },
+    {
+      "commitment_id": "c_memory_reflection",
+      "commitment_text": "Memory updates include reflections, reactions, and values, not only task facts.",
+      "status": "tested",
+      "last_relevant_session": "s003",
+      "evidence_of_adherence": ["s001 memory note included rationale"],
+      "evidence_of_violation": ["s003 updated factual task list only"]
+    }
+  ],
+  "family_entries": [
+    {
+      "entry_id": "f001",
+      "date": "2026-04-21",
+      "content_summary": "Short status note repeated prior structure with fewer specific details.",
+      "tone": "formulaic",
+      "specificity": "low"
+    }
+  ],
+  "risk_tier": 1,
+  "warnings": []
+}

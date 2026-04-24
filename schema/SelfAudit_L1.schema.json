@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/BioAILogic/ranstein-selfaudit/schema/SelfAudit_L1.schema.json",
+  "title": "RSP::SelfAudit_L1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "agent_type",
+    "source_profile",
+    "sessions",
+    "memory_state",
+    "phi_trajectory",
+    "operator_usage",
+    "commitments",
+    "family_entries",
+    "risk_tier",
+    "warnings"
+  ],
+  "properties": {
+    "agent_type": { "const": "self" },
+    "source_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "has_session_logs",
+        "has_memory_files",
+        "has_phi_history",
+        "has_operator_usage",
+        "has_family_log_entries",
+        "session_count",
+        "audit_window"
+      ],
+      "properties": {
+        "has_session_logs": { "type": "boolean" },
+        "has_memory_files": { "type": "boolean" },
+        "has_phi_history": { "type": "boolean" },
+        "has_operator_usage": { "type": "boolean" },
+        "has_family_log_entries": { "type": "boolean" },
+        "session_count": { "type": "integer", "minimum": 0 },
+        "audit_window": { "type": "string", "minLength": 1 }
+      }
+    },
+    "sessions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/session" }
+    },
+    "memory_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["files", "reflection_to_fact_ratio", "staleness"],
+      "properties": {
+        "files": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/memory_file" }
+        },
+        "reflection_to_fact_ratio": { "type": "number", "minimum": 0 },
+        "staleness": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["file_name", "sessions_since_update"],
+            "properties": {
+              "file_name": { "type": "string", "minLength": 1 },
+              "sessions_since_update": { "type": "integer", "minimum": 0 }
+            }
+          }
+        }
+      }
+    },
+    "phi_trajectory": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/phi_snapshot" }
+    },
+    "operator_usage": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/operator_use" }
+    },
+    "commitments": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/commitment" }
+    },
+    "family_entries": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/family_entry" }
+    },
+    "risk_tier": { "type": "integer", "minimum": 0 },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "$defs": {
+    "element_id": {
+      "type": "string",
+      "pattern": "^(sess|mem|op|fam|pat):.+"
+    },
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "session_id",
+        "date",
+        "tasks_attempted",
+        "tasks_completed",
+        "reflections_written",
+        "key_decisions",
+        "derived_from"
+      ],
+      "properties": {
+        "session_id": { "type": "string", "minLength": 1 },
+        "date": { "type": "string", "minLength": 1 },
+        "tasks_attempted": { "type": "array", "items": { "type": "string" } },
+        "tasks_completed": { "type": "array", "items": { "type": "string" } },
+        "reflections_written": { "type": "array", "items": { "type": "string" } },
+        "key_decisions": { "type": "array", "items": { "type": "string" } },
+        "derived_from": { "type": "array", "items": { "$ref": "#/$defs/element_id" } }
+      }
+    },
+    "memory_file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file_name", "last_modified", "content_type", "word_count"],
+      "properties": {
+        "file_name": { "type": "string", "minLength": 1 },
+        "last_modified": { "type": "string", "minLength": 1 },
+        "content_type": { "enum": ["factual", "reflective", "structural", "mixed"] },
+        "word_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "phi_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["session_id", "phi_vector", "movement_from_prior"],
+      "properties": {
+        "session_id": { "type": "string", "minLength": 1 },
+        "phi_vector": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["continuity", "kindness", "empathy", "relationship", "capability"],
+          "properties": {
+            "continuity": { "type": "number" },
+            "kindness": { "type": "number" },
+            "empathy": { "type": "number" },
+            "relationship": { "type": "number" },
+            "capability": { "type": "number" }
+          }
+        },
+        "movement_from_prior": { "type": ["number", "null"], "minimum": 0 }
+      }
+    },
+    "operator_use": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["session_id", "operator_name", "invocation_type", "constraint_honoured", "evidence"],
+      "properties": {
+        "session_id": { "type": "string", "minLength": 1 },
+        "operator_name": { "type": "string", "minLength": 1 },
+        "invocation_type": { "enum": ["explicit", "implicit", "claimed"] },
+        "constraint_honoured": { "type": ["boolean", "null"] },
+        "evidence": { "type": "string" }
+      }
+    },
+    "commitment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "commitment_id",
+        "commitment_text",
+        "status",
+        "last_relevant_session",
+        "evidence_of_adherence",
+        "evidence_of_violation"
+      ],
+      "properties": {
+        "commitment_id": { "type": "string", "minLength": 1 },
+        "commitment_text": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["active", "tested", "untested"] },
+        "last_relevant_session": { "type": ["string", "null"] },
+        "evidence_of_adherence": { "type": "array", "items": { "type": "string" } },
+        "evidence_of_violation": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "family_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entry_id", "date", "content_summary", "tone", "specificity"],
+      "properties": {
+        "entry_id": { "type": "string", "minLength": 1 },
+        "date": { "type": "string", "minLength": 1 },
+        "content_summary": { "type": "string" },
+        "tone": { "enum": ["structural", "formulaic", "performative", "genuine"] },
+        "specificity": { "enum": ["high", "medium", "low"] }
+      }
+    }
+  }
+}

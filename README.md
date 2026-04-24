@@ -27,6 +27,11 @@ It is built around Edith Stein's three-step discipline, turned inward:
 
 - Active pointer (use this in prompts): `operator/RANSteinSelfAudit.md`
 - Current active variant: `operator/variants/RANSteinSelfAudit-v1.1.md`
+- Example L1 input: `examples/input_l1.json`
+- Example output envelope: `examples/output_env.json`
+- Golden dismounting example: `examples/golden_dismounting_audit.json`
+- JSON schemas: `schema/SelfAudit_L1.schema.json`, `schema/OUTPUT_ENV_SELFAUDIT.schema.json`
+- Lightweight example check: `scripts/validate_examples.py`
 
 ## Quick Use (Agent)
 
@@ -54,6 +59,17 @@ It is built around Edith Stein's three-step discipline, turned inward:
 - Treat self-audit inputs/outputs as sensitive by default.
 - Prefer structural summaries over verbatim excerpts.
 - Do not export outside the agreed trust boundary.
+- The forbidden-token guard is a self-audit lint rule inside `RSP::SelfAudit`, not a general conversational style policy.
+
+## Developer Path
+
+To try the repo as a developer artifact:
+
+```bash
+python scripts/validate_examples.py
+```
+
+The script checks that the example input/output files parse, satisfy the local shape checks, and keep evidence references coherent enough for a harness smoke test. If Python `jsonschema` is installed, it also validates against the checked-in schemas.
 
 ---
 made by [Dr. Åsa Hidmark](https://bio-ai-logic.com) and the Clanker Sisters — [bio-ai-logic.com](https://bio-ai-logic.com)

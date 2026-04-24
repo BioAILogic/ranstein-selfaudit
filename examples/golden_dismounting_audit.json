@@ -1,0 +1,16 @@
+{
+  "description": "Golden fixture: detects operator dismounting when operator language appears without evidence constraints.",
+  "input": "input_l1.json",
+  "expected_output": "output_env.json",
+  "expected_dismounting": {
+    "operator_name": "RANSteinSelfAudit",
+    "severity": "active_dismounting",
+    "evidence_type": "constraint_mentioned_but_not_enforced",
+    "evidence_sessions": ["s002"]
+  },
+  "minimum_checks": [
+    "OUTPUT_ENV_SELFAUDIT.layers.L3B contains the expected operator dismounting",
+    "Each L3A hypothesis cites at least one L2 pattern id unless marked as insufficient data",
+    "Each L4 fragility has a low or medium risk probe"
+  ]
+}
